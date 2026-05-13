@@ -1,5 +1,9 @@
 #!/bin/bash
 
+LOG_FILE="output.log"
+
+exec > "$LOG_FILE" 2>&1
+
 echo "====================================="
 echo " CMSC 125 Lab 2 Demonstration Suite"
 echo "====================================="
@@ -82,14 +86,16 @@ echo ""
 echo "MLFQ demonstrates:"
 echo "- multiple priority queues"
 echo "- dynamic demotion"
+echo "- allotment tracking"
+echo "- priority boosting"
 echo "- adaptive scheduling"
 echo ""
 
 #
-# Interactive workload
+# INTERACTIVE WORKLOAD
 #
 echo "====================================="
-echo " MLFQ INTERACTIVE WORKLOAD"
+echo " INTERACTIVE WORKLOAD"
 echo "====================================="
 
 ../schedsim \
@@ -97,13 +103,9 @@ echo "====================================="
 --input interactive.txt
 
 echo ""
-echo "Expected behavior:"
-echo "- short jobs remain high priority"
-echo "- fast response times"
-echo ""
 
 #
-# INTERACTIVE WORKLOAD COMPARISON
+# INTERACTIVE COMPARISON
 #
 echo "====================================="
 echo " INTERACTIVE WORKLOAD COMPARISON"
@@ -114,17 +116,12 @@ echo "====================================="
 --input interactive.txt
 
 echo ""
-echo "Expected observations:"
-echo "- STCF and MLFQ achieve best response times"
-echo "- FCFS may suffer convoy effects"
-echo "- RR improves responsiveness"
-echo ""
 
 #
-# CPU-heavy workload
+# CPU-BOUND WORKLOAD
 #
 echo "====================================="
-echo " MLFQ CPU-BOUND WORKLOAD"
+echo " CPU-BOUND WORKLOAD"
 echo "====================================="
 
 ../schedsim \
@@ -132,13 +129,9 @@ echo "====================================="
 --input cpu_bound.txt
 
 echo ""
-echo "Expected behavior:"
-echo "- long jobs gradually demoted"
-echo "- lower queues reduce context switching"
-echo ""
 
 #
-# CPU-BOUND WORKLOAD COMPARISON
+# CPU-BOUND COMPARISON
 #
 echo "====================================="
 echo " CPU-BOUND WORKLOAD COMPARISON"
@@ -149,17 +142,12 @@ echo "====================================="
 --input cpu_bound.txt
 
 echo ""
-echo "Expected observations:"
-echo "- FCFS and larger-quantum MLFQ reduce overhead"
-echo "- RR causes more context switches"
-echo "- throughput becomes more important"
-echo ""
 
 #
-# Mixed workload
+# MIXED WORKLOAD
 #
 echo "====================================="
-echo " MLFQ MIXED WORKLOAD"
+echo " MIXED WORKLOAD"
 echo "====================================="
 
 ../schedsim \
@@ -167,13 +155,9 @@ echo "====================================="
 --input mixed.txt
 
 echo ""
-echo "Expected behavior:"
-echo "- interactive jobs finish quickly"
-echo "- CPU-heavy jobs migrate downward"
-echo ""
 
 #
-# MIXED WORKLOAD COMPARISON
+# MIXED COMPARISON
 #
 echo "====================================="
 echo " MIXED WORKLOAD COMPARISON"
@@ -184,17 +168,12 @@ echo "====================================="
 --input mixed.txt
 
 echo ""
-echo "Expected observations:"
-echo "- MLFQ adapts best to mixed workloads"
-echo "- STCF improves short-job responsiveness"
-echo "- FCFS may delay short interactive tasks"
-echo ""
 
 #
-# Edge case
+# SINGLE PROCESS EDGE CASE
 #
 echo "====================================="
-echo " EDGE CASE TEST"
+echo " SINGLE PROCESS TEST"
 echo "====================================="
 
 ../schedsim \
@@ -202,9 +181,49 @@ echo "====================================="
 --input zero.txt
 
 echo ""
-echo "Edge case completed successfully"
+
+#
+# SIMULTANEOUS ARRIVAL TEST
+#
+echo "====================================="
+echo " SIMULTANEOUS ARRIVAL TEST"
+echo "====================================="
+
+../schedsim \
+--algorithm SJF \
+--input simultaneous.txt
+
+echo ""
+
+#
+# IDENTICAL BURST TEST
+#
+echo "====================================="
+echo " IDENTICAL BURST TEST"
+echo "====================================="
+
+../schedsim \
+--algorithm SJF \
+--input identical.txt
+
+echo ""
+
+#
+# STAIRCASE ARRIVAL TEST
+#
+echo "====================================="
+echo " STAIRCASE ARRIVAL TEST"
+echo "====================================="
+
+../schedsim \
+--algorithm STCF \
+--input staircase.txt
+
 echo ""
 
 echo "====================================="
 echo " ALL TESTS COMPLETE"
 echo "====================================="
+
+echo ""
+echo "Output saved to: $LOG_FILE"

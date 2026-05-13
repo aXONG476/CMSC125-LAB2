@@ -1,0 +1,7 @@
+Reflection
+
+This lab gave us practical experience in implementing CPU scheduling algorithms discussed in class. Through the development of FCFS, SJF, STCF, RR, and MLFQ, we learned how process scheduling affects turnaround time, waiting time, response time, and overall system behavior.
+
+One of the most challenging parts of the lab was implementing the MLFQ scheduler because it required additional features such as multiple queues, dynamic priority adjustment, allotment tracking, and priority boosting. We also encountered several debugging issues during testing, including metric computation errors, edge-case handling, and scheduler behavior validation.
+
+The workload comparisons and automated test suite helped us better understand the strengths and weaknesses of each scheduling algorithm under different scenarios such as interactive, CPU-bound, and mixed workloads. Creating Gantt charts and analyzing metrics also made it easier to visualize how processes moved through the CPU over time.
